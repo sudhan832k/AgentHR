@@ -1,0 +1,24 @@
+[
+    {
+        "name": "Selvasudhan",
+        "sick": {
+            "balance": 5,
+            "used": 2
+        },
+        "casual": {
+            "balance": 2,
+            "used": 1
+        }
+    },
+    {
+        "name": "Vinoth",
+        "sick": {
+            "balance": 3,
+            "used": 0
+        },
+        "casual": {
+            "balance": 1,
+            "used": 0
+        }
+    }
+]
