@@ -3,7 +3,7 @@ import os
 from langchain.tools import tool
 from langchain_community.embeddings import OllamaEmbeddings
 from langchain_community.vectorstores import FAISS
-from langchain_community.llms import Ollama
+from langchain_ollama import OllamaLLM
 
 @tool
 def policy_query_tool(query: str) -> str:
@@ -28,7 +28,7 @@ def policy_query_tool(query: str) -> str:
     context = "\n".join([doc.page_content for doc in relevant_docs])
 
     # Use LLM to answer based on context
-    llm = Ollama(model="mistral")
+    llm = OllamaLLM(model="mistral")
     prompt = f"Answer the following question using only the context below. If the answer is not in the context, say you don't know.\n\nContext:\n{context}\n\nQuestion: {query}\nAnswer:"
     answer = llm(prompt)
     return answer.strip()
