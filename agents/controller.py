@@ -3,7 +3,7 @@ Controller agent using LangChain's agent wrappers and Ollama (Mistral).
 Connects onboarding, leave, and policy tools as true agents.
 """
 
-from langchain.llms import Ollama
+from langchain_ollama import OllamaLLM
 from langchain.agents import initialize_agent, AgentType
 # from agents.onboarding_agent import get_onboarding_agent
 from agents.leave_agent import get_leave_agent
@@ -26,7 +26,8 @@ def leave_agent_tool(query: str) -> str:
     Use this tool to answer questions about a specific user's personal leave balance, such as 'How many sick leaves do I have left?' or 'What is my remaining casual leave?'.
     Do not use for general company leave policy questions.
     """
-    return leave_agent.run(query)
+    result = leave_agent.invoke({"input": query})
+    return result["output"] if isinstance(result, dict) and "output" in result else str(result)
 
 @tool
 def policy_agent_tool(query: str) -> str:
@@ -34,14 +35,19 @@ def policy_agent_tool(query: str) -> str:
     Use this tool to answer general questions about company leave policy, rules, types of leave, or eligibility (e.g., 'What is the sick leave policy?', 'How many types of leave are there?').
     Do not use for user-specific leave balance questions.
     """
-    return policy_agent.run(query)
+    result = policy_agent.invoke({"input": query})
+    return result["output"] if isinstance(result, dict) and "output" in result else str(result)
 
-llm = Ollama(model="mistral")
+llm = OllamaLLM(model="mistral")
 controller_tools = [leave_agent_tool, policy_agent_tool]
-controller_agent = initialize_agent(controller_tools, llm, agent=AgentType.ZERO_SHOT_REACT_DESCRIPTION, verbose=True)
+controller_agent = initialize_agent(controller_tools, llm, agent=AgentType.ZERO_SHOT_REACT_DESCRIPTION, verbose=False)
 
 def handle_query(query: str) -> str:
-    response = controller_agent.run(query)
+    result = controller_agent.invoke({"input": query})
+    response = result["output"] if isinstance(result, dict) and "output" in result else str(result)
+    # Only return the 'Final Answer:' if present
+    if "Final Answer:" in response:
+        return response.split("Final Answer:", 1)[1].strip()
     fallback_phrases = [
         "I'm not sure",
         "I do not know",

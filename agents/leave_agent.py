@@ -9,4 +9,4 @@ from langchain.agents import initialize_agent, AgentType
 def get_leave_agent():
     llm = Ollama(model="mistral")
     tools = [leave_balance_tool]
-    return initialize_agent(tools, llm, agent=AgentType.ZERO_SHOT_REACT_DESCRIPTION, verbose=True)
+    return initialize_agent(tools, llm, agent=AgentType.ZERO_SHOT_REACT_DESCRIPTION, verbose=False,handle_parsing_errors=True)

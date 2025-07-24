@@ -5,7 +5,7 @@ Run this file once to create the vectorstore. Later, just load it.
 
 import os
 from langchain.vectorstores import FAISS
-from langchain.embeddings import HuggingFaceEmbeddings
+from langchain_community.embeddings import OllamaEmbeddings
 from langchain.document_loaders import PyPDFLoader
 
 VECTORSTORE_PATH = "data/policy_faiss_index"
@@ -17,7 +17,7 @@ def create_and_save_vectorstore():
         raise FileNotFoundError(f"PDF not found: {PDF_PATH}")
     loader = PyPDFLoader(PDF_PATH)
     docs = loader.load_and_split()
-    embeddings = HuggingFaceEmbeddings()
+    embeddings = OllamaEmbeddings(model="mistral")
     vectorstore = FAISS.from_documents(docs, embeddings)
     vectorstore.save_local(VECTORSTORE_PATH)
     print(f"Vectorstore created and saved to {VECTORSTORE_PATH}")
@@ -26,7 +26,7 @@ def create_and_save_vectorstore():
 def load_vectorstore():
     if not os.path.exists(VECTORSTORE_PATH):
         raise FileNotFoundError(f"Vectorstore not found: {VECTORSTORE_PATH}. Run create_and_save_vectorstore() first.")
-    embeddings = HuggingFaceEmbeddings()
+    embeddings = OllamaEmbeddings(model="mistral")
     return FAISS.load_local(VECTORSTORE_PATH, embeddings)
 
 if __name__ == "__main__":
