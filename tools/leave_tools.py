@@ -8,9 +8,7 @@ def _load_leave_data(data_path="data/leave_data.json"):
     with open(data_path, "r") as f:
         return json.load(f)
 
-@tool
 def leave_balance_tool(user: str) -> str:
-    """Get all leave balances for a user as per the leave_data.json file."""
     print("[INFO] leave_balance_tool invoked.")
     # Validate input
     if not user or not user.strip():

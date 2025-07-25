@@ -5,7 +5,7 @@ Run this file once to create the vectorstore. Later, just load it.
 
 import os
 from langchain.vectorstores import FAISS
-from langchain_community.embeddings import OllamaEmbeddings
+from langchain_ollama import OllamaEmbeddings
 from langchain.document_loaders import PyPDFLoader
 
 VECTORSTORE_PATH = "data/policy_faiss_index"

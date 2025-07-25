@@ -1,17 +1,11 @@
 
 import os
 from langchain.tools import tool
-from langchain_community.embeddings import OllamaEmbeddings
+from langchain_ollama import OllamaEmbeddings
 from langchain_community.vectorstores import FAISS
 from langchain_ollama import OllamaLLM
 
-@tool
 def policy_query_tool(query: str) -> str:
-    """
-    Answer a policy question using the local policy document.
-    Call this tool as: policy_query_tool("your question here")
-    Do NOT use named arguments or function-call syntax like policy_query_tool(query="...").
-    """
     print("[INFO] policy_query_tool invoked.")
     # Path to the FAISS index
     faiss_index_path = os.path.join(os.path.dirname(__file__), '../data/policy_faiss_index')
@@ -30,5 +24,5 @@ def policy_query_tool(query: str) -> str:
     # Use LLM to answer based on context
     llm = OllamaLLM(model="mistral")
     prompt = f"Answer the following question using only the context below. If the answer is not in the context, say you don't know.\n\nContext:\n{context}\n\nQuestion: {query}\nAnswer:"
-    answer = llm(prompt)
+    answer = llm.invoke(prompt)
     return answer.strip()
