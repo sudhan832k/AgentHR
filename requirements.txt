@@ -4,3 +4,5 @@ ollama>=0.1.0
 faiss-cpu
 streamlit
 pypdf
+python-dotenv
+langchain-google-genai

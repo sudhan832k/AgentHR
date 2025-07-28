@@ -3,7 +3,7 @@ Controller agent using LangChain's agent wrappers and Ollama (Mistral).
 Connects onboarding, leave, and policy tools as true agents.
 """
 
-from langchain_ollama import OllamaLLM
+from model import get_gemini
 from langchain.agents import initialize_agent, AgentType
 # from agents.onboarding_agent import get_onboarding_agent
 from agents.leave_agent import get_leave_agent
@@ -29,7 +29,7 @@ def policy_agent_tool(query: str) -> str:
     result = policy_agent.invoke({"input": query})
     return result["output"] if isinstance(result, dict) and "output" in result else str(result)
 
-llm = OllamaLLM(model="mistral")
+llm = get_gemini()
 
 with open("prompts.json") as f:
     prompts = json.load(f)
@@ -45,7 +45,7 @@ controller_tools = [ Tool(
     )
 ]
 controller_prompt = prompts["controller_prompt"]
-controller_agent = initialize_agent(controller_tools, llm, agent=AgentType.ZERO_SHOT_REACT_DESCRIPTION, verbose=False,handle_parsing_errors=True,agent_kwargs={"prefix": controller_prompt})
+controller_agent = initialize_agent(controller_tools, llm, agent=AgentType.ZERO_SHOT_REACT_DESCRIPTION, verbose=True,handle_parsing_errors=True,agent_kwargs={"prefix": controller_prompt})
 
 def handle_query(query: str) -> str:
     result = controller_agent.invoke({"input": query})

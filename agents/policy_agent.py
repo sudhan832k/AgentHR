@@ -3,7 +3,7 @@ PolicyRAGAgent: Answers policy questions using FAISS and local embeddings.
 """
 
 from tools.policy_tools import policy_query_tool
-from langchain_ollama import OllamaLLM
+from model import get_gemini
 from langchain.agents import initialize_agent, AgentType
 from langchain.tools import Tool
 import json
@@ -12,7 +12,7 @@ with open("prompts.json") as f:
     prompts = json.load(f)
 
 def get_policy_agent():
-    llm = OllamaLLM(model="mistral")
+    llm = get_gemini()
     tools = [Tool(
         name="policy_query_tool",
         func=policy_query_tool,
