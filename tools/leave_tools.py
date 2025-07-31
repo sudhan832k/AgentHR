@@ -9,7 +9,7 @@ def _load_leave_data(data_path="data/leave_data.json"):
         return json.load(f)
 
 def leave_balance_tool(user: str) -> str:
-    print("[INFO] leave_balance_tool invoked.")
+    print("[INFO] leave_balance_tool invoked.", user)
     # Validate input
     if not user or not user.strip():
         return "[ERROR] No user name provided. Please pass a valid user name."

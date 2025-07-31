@@ -6,3 +6,5 @@ streamlit
 pypdf
 python-dotenv
 langchain-google-genai
+mcp
+langchain-mcp-adapters
