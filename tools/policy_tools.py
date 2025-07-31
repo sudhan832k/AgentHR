@@ -3,7 +3,7 @@ import os
 from langchain.tools import tool
 from langchain_ollama import OllamaEmbeddings
 from langchain_community.vectorstores import FAISS
-from model import get_gemini
+from model import getModel
 
 def policy_query_tool(query: str) -> str:
     print("[INFO] policy_query_tool invoked.")
@@ -22,8 +22,7 @@ def policy_query_tool(query: str) -> str:
     context = "\n".join([doc.page_content for doc in relevant_docs])
 
     # Use LLM to answer based on context
-    llm = get_gemini()
+    llm = getModel()
     prompt = f"Answer the following question using only the context below. If the answer is not in the context, say you don't know.\n\nContext:\n{context}\n\nQuestion: {query}\nAnswer:"
     answer = llm.invoke(prompt)
-    print(answer)
-    return answer.content.strip()
+    return answer.strip()
