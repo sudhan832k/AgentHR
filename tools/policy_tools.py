@@ -6,7 +6,7 @@ from langchain_community.vectorstores import FAISS
 from model import getModel
 
 def policy_query_tool(query: str) -> str:
-    print("[INFO] policy_query_tool invoked.")
+    print("[INFO] policy_query_tool invoked with query: [actual tool]", query)
     # Path to the FAISS index
     faiss_index_path = os.path.join(os.path.dirname(__file__), '../data/policy_faiss_index')
 

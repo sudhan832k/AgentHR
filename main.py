@@ -26,7 +26,7 @@ async def main():
     })
     tools = await client.get_tools()
     wrapped_tools = [wrap_tool_for_agent(t) for t in tools]
-    print("Available tools:", wrapped_tools)
+    print(wrapped_tools)
     print("Welcome to AgentHR!")
     while True:
         query = input("Ask your HR question (or type 'exit'): ")

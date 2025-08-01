@@ -8,7 +8,7 @@ def _load_leave_data(data_path="data/leave_data.json"):
     with open(data_path, "r") as f:
         return json.load(f)
 
-def leave_balance_tool(user: str, leavetype: optional[str] = None) -> str:
+def leave_balance_tool(user: str, leavetype: str = None) -> str:
     print("[INFO] leave_balance_tool invoked.", user, leavetype)
 
     # Validate input
